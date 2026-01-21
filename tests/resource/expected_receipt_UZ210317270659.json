@@ -1,0 +1,39 @@
+{
+    "receipt_meta": {
+        "fiscal_number": "UZ210317270659",
+        "fiscal_sign": "299114273494",
+        "fiscal_datetime": "2026-01-10 14:55:19",
+        "register_number": "38938",
+        "total_amount": "60000.00",
+        "total_vat": "6428.57"
+    },
+    "store": {
+        "seller_tin": "307511244",
+        "seller_name": "\"PHARMA2020\" MAS'ULIYATI CHEKLANGAN JAMIYAT",
+        "address": "кв. Сергели 8А, дом 11, кв. 1 null"
+    },
+    "cash_register": {
+        "serial_number": "RIG01121",
+        "name": "VIPOS"
+    },
+    "payment": {
+        "cash_amount": "0.00",
+        "card_amount": "60000.00",
+        "card_type": "Shaxsiy",
+        "datetime": "2026-01-10 14:55:00"
+    },
+    "products": [
+        {
+            "pic": "03004301003001002",
+            "pic_name": "Kaliy yodid - H03CA ЙОДОМАРИН® (Berlin-Chemie AG) Tabletkalar 200 mkg blisterlar №100(4x25)",
+            "barcode": "4013054003879",
+            "price": "60000.00",
+            "quantity": "1",
+            "vat_amount": "6428.57",
+            "vat_rate": "12",
+            "name": "ЙОДОМАРИН 200 ТАБ 200МКГ №100",
+            "unit": "blister=25 dona (tabletka (200 mkg))",
+            "discount": "0/0"
+        }
+    ]
+}

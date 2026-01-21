@@ -39,3 +39,14 @@
 
 # debug information files
 *.dwo
+
+# Python3
+.venv
+*.pyc
+.env
+
+# resouce
+data
+resource
+!recuirements.txt
+*.txt

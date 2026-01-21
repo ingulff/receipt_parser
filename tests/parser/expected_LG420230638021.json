@@ -1,0 +1,51 @@
+{
+    "receipt_meta": {
+        "fiscal_number": "LG420230638021",
+        "fiscal_sign": "430522013780.html",
+        "fiscal_datetime": "2026-01-09 14:31:19",
+        "register_number": "5240",
+        "total_amount": "153980.00",
+        "total_vat": "16497.86"
+    },
+    "store": {
+        "seller_tin": "202099756",
+        "seller_name": "\"ANGLESEY FOOD\" MCHJ XK",
+        "address": "г. Ташкент, Сергелийский район, ул. Янги Сергели"
+    },
+    "cash_register": {
+        "serial_number": "STS-20220217-000789",
+        "name": "POS2k"
+    },
+    "payment": {
+        "cash_amount": "0.00",
+        "card_amount": "153980.00",
+        "card_type": "Shaxsiy",
+        "datetime": "2026-01-09 14:31:00"
+    },
+    "products": [
+        {
+            "pic": "00407001001004002",
+            "pic_name": "Tovuq tuxumi 365 kun tovuq tuxumlari, karton lotok 15 dona",
+            "barcode": "4780071060122",
+            "price": "28990.00",
+            "quantity": "1",
+            "vat_amount": "3106.07",
+            "vat_rate": "12",
+            "name": "Tovuq tuxumi 365 kun 15 dona",
+            "unit": "dona (fleyka)",
+            "discount": "0/0"
+        },
+        {
+            "pic": "01512001001000000",
+            "pic_name": "Kungaboqar yog’i (tozalangan yoki tozalanmagan)",
+            "barcode": "4601576004902",
+            "price": "139990.00",
+            "quantity": "1",
+            "vat_amount": "14998.93",
+            "vat_rate": "12",
+            "name": "Kungaboqar yog'i Shedroe Leto, 5L",
+            "unit": "plastik butilka=5 litr",
+            "discount": "15000/0"
+        }
+    ]
+}
