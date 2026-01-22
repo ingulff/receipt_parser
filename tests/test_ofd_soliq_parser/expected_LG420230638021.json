@@ -1,0 +1,43 @@
+{
+    "receipt": {
+        "fiscal_number": "LG420230638021",
+        "datetime": "09.01.2026, 14:31",
+        "seller": {
+            "name": "\"ANGLESEY FOOD\" MCHJ XK",
+            "stir": "202099756"
+        },
+        "total_sum": "153,980.00",
+        "total_vat": "16,497.86",
+        "payments": {
+            "Naqd pul": "0.00",
+            "Bank kartalari": "153,980.00",
+            "card_type": "Shaxsiy"
+        }
+    },
+    "products": [
+        {
+            "name": "Tovuq tuxumi 365 kun 15 dona",
+            "quantity": "1",
+            "price": "28,990.00",
+            "vat_amount": "3,106.07",
+            "vat_rate": "12 %",
+            "barcode": "4780071060122",
+            "mxik": "00407001001004002",
+            "mxik_name": "Tovuq tuxumi 365 kun tovuq tuxumlari, karton lotok 15 dona",
+            "unit": "dona (fleyka)",
+            "discount": "0/0"
+        },
+        {
+            "name": "Kungaboqar yog'i Shedroe Leto, 5L",
+            "quantity": "1",
+            "price": "139,990.00",
+            "vat_amount": "14,998.93",
+            "vat_rate": "12 %",
+            "barcode": "4601576004902",
+            "mxik": "01512001001000000",
+            "mxik_name": "Kungaboqar yog’i (tozalangan yoki tozalanmagan)",
+            "unit": "plastik butilka=5 litr",
+            "discount": "15000/0"
+        }
+    ]
+}

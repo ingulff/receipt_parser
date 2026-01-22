@@ -1,0 +1,31 @@
+{
+    "receipt": {
+        "fiscal_number": "UZ210317270659",
+        "datetime": "10.01.2026, 14:55",
+        "seller": {
+            "name": "\"PHARMA2020\" MAS'ULIYATI CHEKLANGAN JAMIYAT",
+            "stir": "307511244"
+        },
+        "total_sum": "60,000.00",
+        "total_vat": "6,428.57",
+        "payments": {
+            "Naqd pul": "0.00",
+            "Bank kartalari": "60,000.00",
+            "card_type": "Shaxsiy"
+        }
+    },
+    "products": [
+        {
+            "name": "ЙОДОМАРИН 200 ТАБ 200МКГ №100",
+            "quantity": "1",
+            "price": "60,000.00",
+            "vat_amount": "6,428.57",
+            "vat_rate": "12 %",
+            "barcode": "4013054003879",
+            "mxik": "03004301003001002",
+            "mxik_name": "Kaliy yodid - H03CA ЙОДОМАРИН® (Berlin-Chemie AG) Tabletkalar 200 mkg blisterlar №100(4x25)",
+            "unit": "blister=25 dona (tabletka (200 mkg))",
+            "discount": "0/0"
+        }
+    ]
+}
