@@ -5,11 +5,34 @@
 
 import json
 from dataclasses import asdict
+import logging
 import sys
 from traceback import print_exc
 
+from database import DatabaseSession, Transaction, ReceiptStatus
 from network import OFDFetcher
 from parsing import OFDSoliqParser
+
+def setup_logger(
+    name: str = "ofd_service",
+    level: int = logging.INFO,
+    logfile: str = "ofd_service.log"
+):
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    logger.propagate = False
+
+    formatter = logging.Formatter(
+        "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+    )
+
+    console = logging.StreamHandler()
+    console.setLevel(level)
+    console.setFormatter(formatter)
+
+    logger.addHandler(console)
+
+    return logger
 
 class OFDFetchServise:
     def __init__(self, local_urls, remote_urls):
@@ -20,11 +43,45 @@ class OFDFetchServise:
         
         self.__fetcher = OFDFetcher()
         self.__parser = OFDSoliqParser()
+        self.__database = DatabaseSession('./resource/db/receipts.db')
+        self.__logger = setup_logger()
 
     def __process_url(self, url, isRemote=False):
-        raw_receipt = self.__fetcher.get_receipt(url, isRemote)
+        self.__logger.info("Start parsing receipt:%s", url)
         receipt_url = self.__fetcher.parse_url(url, isRemote)
+        with Transaction(self.__database) as t:
+            if t.receipt_identity.exist(
+                receipt_url.fiscal_number, 
+                receipt_url.fiscal_sign
+            ):
+                self.__logger.warning("Receipt always exist: %s", url)
+            else:
+                t.receipt_identity.create(receipt_url)
+
+        raw_receipt = self.__fetcher.get_receipt(url, isRemote)
+        with Transaction(self.__database) as t:
+            t.receipt_identity.update_status(
+                receipt_url.fiscal_number, 
+                receipt_url.fiscal_sign, 
+                ReceiptStatus.FETCHED)
+        
         receipt = self.__parser.parse(raw_receipt, receipt_url)
+        with Transaction(self.__database) as t:
+            status = t.receipt_identity.status(receipt_url.fiscal_number, receipt_url.fiscal_sign)
+            if status and status is ReceiptStatus.FETCHED:
+                t.seller.create(receipt.store, receipt.cash_register)
+                seller_store_ids = {
+                    "receipt_identity_id": t.receipt_identity.id(
+                        receipt_url.fiscal_number, receipt_url.fiscal_sign),
+                    "seller_id": t.seller.seller_id(receipt.store.seller_tin),
+                    "cash_register_id": t.seller.cash_register_id(receipt.cash_register.serial_number)
+                }
+                t.receipt.create(receipt, seller_store_ids)
+                t.receipt_identity.update_status(
+                    receipt_url.fiscal_number, 
+                    receipt_url.fiscal_sign, 
+                    ReceiptStatus.PARSED)
+
         
         self.write_receipt_as_json(receipt)
 
@@ -37,7 +94,9 @@ class OFDFetchServise:
             self.__process_url(url, isRemote)
 
     def run(self, isRemote=False):
+        self.__database.open()
         self.__process_urls(isRemote)
+        self.__database.close()
 
     def write_receipt_as_json(self, receipt):
         with open('resource/out/expected_{}.json'.format(receipt.receipt_meta.fiscal_number), mode='w', encoding='utf-8') as f:
