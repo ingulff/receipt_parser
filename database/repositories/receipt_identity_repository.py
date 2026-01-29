@@ -6,7 +6,7 @@ from datetime import datetime
 
 from database.constants import ReceiptStatus
 from database.session import DatabaseSession
-from domain import ReceiptUrl
+from domain import ReceiptIdentity
 
 
 class ReceiptIdentityRepository:
@@ -28,7 +28,7 @@ class ReceiptIdentityRepository:
         )
         return exist_identity.fetchone() is not None
 
-    def create(self, identity: ReceiptUrl):
+    def create(self, identity: ReceiptIdentity):
         identity_dict = asdict(identity)
         identity_dict['status'] = ReceiptStatus.FETCHED
         identity_dict['updated_datetime'] = datetime.now().isoformat(sep=' ', timespec='seconds')

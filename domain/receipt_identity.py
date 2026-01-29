@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 @dataclass(slots=True)
-class ReceiptUrl:
+class ReceiptIdentity:
     url: str
     fiscal_number: str
     fiscal_sign: str

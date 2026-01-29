@@ -6,6 +6,8 @@ from decimal import Decimal
 import json
 from pathlib import Path
 
+from domain import ReceiptIdentity
+
 
 def load_json(file):
     with open(file, "r", encoding="utf-8") as f:
@@ -28,12 +30,16 @@ def normalize(item):
     return item
 
 
-def get_source_dir(tests_path: str) -> Path:
-    return Path(tests_path).parent
+def get_resource_dir(tests_path: str) -> Path:
+    return Path(tests_path).parent / 'resource'
 
-
-def fake_request_receipt(path):
-    with open(path, mode='r', encoding='utf-8') as f:
-        response = f.read()
-    
-    return response
+def get_identity(uri: str) -> ReceiptIdentity:
+    url, ext = uri.split('.')
+    fn, rn, fd, fs = map(str, url.split('_'))
+    return ReceiptIdentity(
+        url = uri,
+        fiscal_number = fn,
+        fiscal_sign = fs,
+        fiscal_datetime = datetime.strptime(fd, "%Y%m%d%H%M%S"),
+        register_number = rn
+    )

@@ -7,17 +7,17 @@ from typing import List
 
 from bs4 import BeautifulSoup
 
-from domain import CashRegister, Payment, Product, ReceiptMeta, ReceiptUrl, Receipt, Store
+from domain import CashRegister, Payment, Product, ReceiptMeta, ReceiptIdentity, Receipt, Store
 
 
 class OFDSoliqParser:
-    def __parse_receipt_meta(self, meta_tag, rows, receipt_meta: ReceiptUrl) -> ReceiptMeta:
+    def __parse_receipt_meta(self, meta_tag, rows, receipt_identity: ReceiptIdentity) -> ReceiptMeta:
         fiscal_number = meta_tag.find_next('b').text.strip()
-        if receipt_meta.fiscal_number != fiscal_number:
+        if receipt_identity.fiscal_number != fiscal_number:
             raise ValueError("invalid fiscal number")
         
         register_number = meta_tag.find_next('span').find_next('b').text.strip()
-        if receipt_meta.register_number != register_number: 
+        if receipt_identity.register_number != register_number: 
             raise ValueError("invalid register number")
 
         total_sum = None
@@ -41,8 +41,8 @@ class OFDSoliqParser:
 
         return ReceiptMeta(
             fiscal_number = fiscal_number,
-            fiscal_sign = receipt_meta.fiscal_sign,
-            fiscal_datetime = receipt_meta.fiscal_datetime,
+            fiscal_sign = receipt_identity.fiscal_sign,
+            fiscal_datetime = receipt_identity.fiscal_datetime,
             register_number = register_number,
             total_amount = total_sum,
             total_vat = total_vat
@@ -206,13 +206,13 @@ class OFDSoliqParser:
         return products
         
 
-    def parse(self, raw_receipt, receipt_meta: ReceiptUrl) -> Receipt:
+    def parse(self, raw_receipt, receipt_identity: ReceiptIdentity) -> Receipt:
         receipt_html = BeautifulSoup(raw_receipt, 'html.parser')
 
         ticket = receipt_html.find('div', class_='tickets')
         all_rows = ticket.find_all('tr')
         
-        receipt_meta = self.__parse_receipt_meta(ticket, all_rows, receipt_meta)
+        receipt_meta = self.__parse_receipt_meta(ticket, all_rows, receipt_identity)
         store = self.__parse_store(ticket)
 
         cash_register = self.__parse_cach_register(ticket)

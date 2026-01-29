@@ -45,3 +45,4 @@
 *.pyc
 .env
 resource
+!tests/resource
