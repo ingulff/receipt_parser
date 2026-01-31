@@ -44,5 +44,7 @@
 .venv
 *.pyc
 .env
-resource
+resource/
+
+# exceptions
 !tests/resource
