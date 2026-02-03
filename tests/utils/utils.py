@@ -13,6 +13,9 @@ def load_json(file):
     with open(file, "r", encoding="utf-8") as f:
         return json.load(f)
 
+def write_json(content, uri_args):
+     with open('resource/in/{}.html'.format(url_args['fiscal_number']), mode='w', encoding='utf-8') as f:
+            f.write(response.text)
 
 def normalize(item):
     if isinstance(item, dict):

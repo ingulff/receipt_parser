@@ -8,9 +8,16 @@ from typing import List
 from bs4 import BeautifulSoup
 
 from domain import CashRegister, Payment, Product, ReceiptMeta, ReceiptIdentity, Receipt, Store
+from logger.logger import setup_logger
 
 
 class OFDSoliqParser:
+    def __init__(self):
+        self.__logger = setup_logger(
+            name='ofd_parser',
+            logfile='ofd_parser.log'
+        )
+    
     def __parse_receipt_meta(self, meta_tag, rows, receipt_identity: ReceiptIdentity) -> ReceiptMeta:
         fiscal_number = meta_tag.find_next('b').text.strip()
         if receipt_identity.fiscal_number != fiscal_number:
@@ -213,17 +220,21 @@ class OFDSoliqParser:
         all_rows = ticket.find_all('tr')
         
         receipt_meta = self.__parse_receipt_meta(ticket, all_rows, receipt_identity)
+        self.__logger.info('parsed receipt meta:%s', receipt_meta)
+        
         store = self.__parse_store(ticket)
+        self.__logger.info('parsed receipt store:%s', store)
 
         cash_register = self.__parse_cach_register(ticket)
+        self.__logger.info('parsed cash register:%s', cash_register)
 
         date_tag = ticket.find('i', string=lambda value: value and ',' in value)
         payment = self.__parse_payment(date_tag, all_rows)
+        self.__logger.info('parsed payment:%s', payment)
     
         products_tag = ticket.select_one('table.products-tables')
         products = self.__parse_products(products_tag)
-
-        # result
+        
         return Receipt(
             receipt_meta = receipt_meta,
             store = store,
