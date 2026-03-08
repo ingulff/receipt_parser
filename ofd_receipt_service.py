@@ -25,7 +25,7 @@ class OFDFetchServise:
             logfile='ofd_service.log'
         )
 
-    def __process_url(self, url, isRemote=False):
+    def __process_url(self, url):
         self.__logger.info("start parsing receipt:%s", url)
         receipt_url = self.__fetcher.parse_url(url, isRemote)
         exist_receipt = False
@@ -65,17 +65,9 @@ class OFDFetchServise:
         self.__logger.info("Cmplete parsing receipt:%s", url)
         self.write_receipt_as_json(receipt)
 
-    def __process_urls(self, isRemote=False):
-        urls = self.__local_urls
-        if isRemote:
-            urls = self.__remote_urls
-        
-        for url in urls:
-            self.__process_url(url, isRemote)
-
     def run(self, url_setting):
         self.__database.open()
-        self.__process_urls(url_setting['isRemote'])
+        
         self.__database.close()
 
     def write_receipt_as_json(self, receipt):
@@ -85,16 +77,7 @@ class OFDFetchServise:
 
 if __name__ == '__main__':
     try:
-        remote_urls = [
-            'https://ofd.soliq.uz/check?t=LG420230638021&r=5240&c=20260109143119&s=430522013780',
-            'https://ofd.soliq.uz/check?t=UZ210317270659&r=38938&c=20260110145519&s=299114273494'
-        ]
-        local_urls = [
-            'UZ210317270659_38938_20260110145519_299114273494.html',
-            'LG420230638021_5240_20260109143119_430522013780.html'
-        ]
-        
-        ofd_fetch_service = OFDFetchServise(OFDFetcher(), OFDSoliqParser(), local_urls)
+        ofd_fetch_service = OFDFetchServise(OFDFetcher(), OFDSoliqParser())
         ofd_fetch_service.run(local_urls)
     except Exception as e:
         print('Error:{}'.format(e))
